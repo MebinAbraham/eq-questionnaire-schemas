@@ -85,3 +85,4 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           repository: MebinAbraham/eq-questionnaire-runner
           event-type: schemas_release
+          client-payload: '{"github": ${{ toJson(github) }}}'
