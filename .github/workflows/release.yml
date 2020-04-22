@@ -85,7 +85,7 @@ jobs:
           echo $GITHUB_REF
           TAG_CLEAN="${GITHUB_REF/refs\/tags\//}"
           echo "Tag clean"
-          echo $TAG
+          echo $TAG_CLEAN
           
           echo "::set-env name=TAG::$TAG_CLEAN"
           
