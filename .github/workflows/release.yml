@@ -76,23 +76,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   notify-runner:
+    needs: release
     runs-on: ubuntu-latest
     steps:
       - name: Get schema version
         uses: actions/checkout@v2
       - run: |
           GITHUB_REF=`echo ${{ github.ref }}`
-          echo $GITHUB_REF
           TAG_CLEAN="${GITHUB_REF/refs\/tags\//}"
-          echo "Tag clean"
-          echo $TAG_CLEAN
-          
           echo "::set-env name=TAG::$TAG_CLEAN"
-          echo "::set-env name=TEST::temp"
-          
-          echo "Tag to send"
-          echo ${{ env.TAG }}
-          echo ${{ env.TEST }}
       - name: Notify Runner
         uses: peter-evans/repository-dispatch@v1.0.0
         with:
@@ -100,7 +92,3 @@ jobs:
           repository: MebinAbraham/eq-questionnaire-runner
           event-type: schemas_release
           client-payload: '{"tag": "${{ env.TAG }}"}'
-      - name: Temp
-        uses: actions/checkout@v2
-      - run: |
-          exit 1
