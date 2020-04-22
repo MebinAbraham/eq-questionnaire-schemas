@@ -83,6 +83,7 @@ jobs:
         uses: actions/checkout@v2
       - run: |
           GITHUB_REF=`echo ${{ github.event.client_payload.ref }}`
+          echo $GITHUB_REF
           echo ::set-output name=TAG::${GITHUB_REF/refs\/tags\//}
       - name: Notify Runner
         uses: peter-evans/repository-dispatch@v1.0.0
