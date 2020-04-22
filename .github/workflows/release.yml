@@ -79,10 +79,14 @@ jobs:
     needs: release
     runs-on: ubuntu-latest
     steps:
+      - name: Update schemas version
+      - run: |
+          GITHUB_REF=`echo ${{ github.event.client_payload.ref }}`
+          echo ::set-output name=TAG::${GITHUB_REF/refs\/tags\//}
       - name: Notify Runner
         uses: peter-evans/repository-dispatch@v1.0.0
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           repository: MebinAbraham/eq-questionnaire-runner
           event-type: schemas_release
-          client-payload: '{"github": ${{ toJson(github) }}}'
+          client-payload: '{"tag": "${{ env.TAG }}"}'
