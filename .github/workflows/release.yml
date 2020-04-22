@@ -76,7 +76,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   notify-runner:
-    needs: release
     runs-on: ubuntu-latest
     steps:
       - name: Get schema version
@@ -84,9 +83,13 @@ jobs:
       - run: |
           GITHUB_REF=`echo ${{ github.ref }}`
           echo $GITHUB_REF
-          echo ::set-output name=TAG::${GITHUB_REF/refs\/tags\//}
+          TAG="${GITHUB_REF/refs\/tags\//}"
+          echo "Tag clean"
+          echo $TAG
           
-          echo Tag
+          echo "::set-env name=TAG::$TAG"
+          
+          echo "To to send"
           echo ${{ env.TAG }}
           exit 1
       - name: Notify Runner
