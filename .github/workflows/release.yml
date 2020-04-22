@@ -82,7 +82,7 @@ jobs:
       - name: Get schema version
         uses: actions/checkout@v2
       - run: |
-          GITHUB_REF=`echo ${{ github.event.client_payload.ref }}`
+          GITHUB_REF=`echo ${{ github.ref }}`
           echo $GITHUB_REF
           echo ::set-output name=TAG::${GITHUB_REF/refs\/tags\//}
       - name: Notify Runner
@@ -91,4 +91,4 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           repository: MebinAbraham/eq-questionnaire-runner
           event-type: schemas_release
-          client-payload: '{"tag": "${{ env.TAG }}"}'
+          client-payload: '{"ref": "${{ env.TAG }}"}'
