@@ -79,7 +79,8 @@ jobs:
     needs: release
     runs-on: ubuntu-latest
     steps:
-      - name: Update schemas version
+      - name: Get schema version
+        uses: actions/checkout@v2
       - run: |
           GITHUB_REF=`echo ${{ github.event.client_payload.ref }}`
           echo ::set-output name=TAG::${GITHUB_REF/refs\/tags\//}
