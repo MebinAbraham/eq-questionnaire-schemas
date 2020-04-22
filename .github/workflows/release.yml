@@ -88,10 +88,11 @@ jobs:
           echo $TAG_CLEAN
           
           echo "::set-env name=TAG::$TAG_CLEAN"
+          echo "::set-env name=TEST::temp"
           
           echo "Tag to send"
           echo ${{ env.TAG }}
-          exit 1
+          echo ${{ env.TEST }}
       - name: Notify Runner
         uses: peter-evans/repository-dispatch@v1.0.0
         with:
@@ -99,3 +100,7 @@ jobs:
           repository: MebinAbraham/eq-questionnaire-runner
           event-type: schemas_release
           client-payload: '{"tag": "${{ env.TAG }}"}'
+      - name: Temp
+        uses: actions/checkout@v2
+      - run: |
+          exit 1
