@@ -37,8 +37,7 @@ jobs:
         with:
           version: 'latest'
           project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
-          export_default_credentials: true
+          service_account_key: ${{ secrets.GCP_SCHEMAS_BUCKET_SA_KEY }}
       - run: |
           BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
           gsutil -m cp -r schemas gs://${{ secrets.GCP_BUCKET_NAME }}/${BRANCH_NAME}/
