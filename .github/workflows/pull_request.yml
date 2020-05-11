@@ -37,7 +37,7 @@ jobs:
           name: schemas
       - name: Install pipenv
       - run: |
-          ls -la
+          ls
   test-translation-templates:
     needs: build
     runs-on: ubuntu-latest
