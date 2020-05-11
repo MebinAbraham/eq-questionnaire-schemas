@@ -28,13 +28,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
       - name: Download built schemas
         uses: actions/download-artifact@v1
         with:
           name: schemas
       - name: Install pipenv
+        run: pip install pipenv==2018.11.26
       - run: |
-          ls
+          echo "::set-env name=PYTHON_VERSION::$(python -c 'import platform; print(platform.python_version())')"
   test-translation-templates:
     needs: build
     runs-on: ubuntu-latest
