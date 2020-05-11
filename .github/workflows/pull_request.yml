@@ -44,9 +44,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v1
-        with:
-          python-version: 3.8
       - name: Download built schemas
         uses: actions/download-artifact@v1
         with:
@@ -54,7 +51,7 @@ jobs:
       - name: Install pipenv
         run: pip install pipenv==2018.11.26
       - run: |
-          echo "::set-env name=PYTHON_VERSION::$(python -c 'import platform; print(platform.python_version())')"
+          ls
       - name: Cache virtualenv
         id: cache-virtualenv
         uses: actions/cache@v1
