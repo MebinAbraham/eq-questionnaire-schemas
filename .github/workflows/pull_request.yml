@@ -35,11 +35,13 @@ jobs:
       - name: GCS
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
-          version: '290.0.1'
+          version: 'latest'
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
           export_default_credentials: true
-      - run: gcloud info
+      - run: |
+          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+          gsutil -m cp -r schemas gs://${{ secrets.GCP_BUCKET_NAME }}/${BRANCH_NAME}/
   test-translation-templates:
     needs: build
     runs-on: ubuntu-latest
