@@ -23,24 +23,6 @@ jobs:
         with:
           name: schemas
           path: schemas
-  upload-schemas-to-gcs:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Download built schemas
-        uses: actions/download-artifact@v1
-        with:
-          name: schemas
-      - name: GCS
-        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-        with:
-          version: 'latest'
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SCHEMAS_BUCKET_SA_KEY }}
-      - run: |
-          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
-          gsutil -m cp -r schemas gs://${{ secrets.GCP_BUCKET_NAME }}/${BRANCH_NAME}/
   test-translation-templates:
     needs: build
     runs-on: ubuntu-latest
@@ -77,3 +59,21 @@ jobs:
       - run: make run-validator
       - name: Validate schemas
         run: make validate-schemas
+  upload-schemas-to-gcs:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download built schemas
+        uses: actions/download-artifact@v1
+        with:
+          name: schemas
+      - name: GCS
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: 'latest'
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SCHEMAS_BUCKET_SA_KEY }}
+      - run: |
+          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+          gsutil -m cp -r schemas gs://${{ secrets.GCP_BUCKET_NAME }}/${BRANCH_NAME}/
