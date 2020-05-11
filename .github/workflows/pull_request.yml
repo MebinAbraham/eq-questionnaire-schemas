@@ -60,7 +60,7 @@ jobs:
       - name: Validate schemas
         run: make validate-schemas
   upload-schemas-to-gcs:
-    needs: build
+    needs: validate-schemas
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
