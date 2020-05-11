@@ -23,6 +23,21 @@ jobs:
         with:
           name: schemas
           path: schemas
+  upload-schemas-to-gcs:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Download built schemas
+        uses: actions/download-artifact@v1
+        with:
+          name: schemas
+      - name: Install pipenv
+      - run: |
+          ls -la
   test-translation-templates:
     needs: build
     runs-on: ubuntu-latest
